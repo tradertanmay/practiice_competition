@@ -53,17 +53,9 @@ def main(**kwargs):
     torch.cuda.manual_seed(train_config.seed)
     torch.manual_seed(train_config.seed)
 
-    if train_config.enable_fsdp:
-        setup()
-        # torchrun specific
-        local_rank = int(os.environ["LOCAL_RANK"])
-        rank = int(os.environ["RANK"])
-        world_size = int(os.environ["WORLD_SIZE"])
+ 
 
-    if torch.distributed.is_initialized():
-        torch.cuda.set_device(local_rank)
-        clear_gpu_cache(local_rank)
-        setup_environ_flags(rank)
+   
 
     # Load the pre-trained model and setup its configuration
     use_cache = False if train_config.enable_fsdp else None
